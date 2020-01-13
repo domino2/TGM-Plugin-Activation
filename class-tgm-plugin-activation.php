@@ -1412,6 +1412,7 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 				'force_deactivation' => false,   // Boolean.
 				'external_url'       => '',      // String.
 				'is_callable'        => '',      // String or array.
+				'description'        => '',      // String
 			);
 
 			// Prepare the received data.
@@ -1419,6 +1420,8 @@ if ( ! class_exists( 'TGM_Plugin_Activation' ) ) {
 
 			// Standardize the received slug.
 			$plugin['slug'] = $this->sanitize_key( $plugin['slug'] );
+
+			$plugin['description'] = esc_html( $plugin['description'] );
 
 			// Forgive users for using string versions of booleans or floats for version number.
 			$plugin['version']            = (string) $plugin['version'];
@@ -2341,6 +2344,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 				$table_data[ $i ]['installed_version'] = $this->tgmpa->get_installed_version( $slug );
 				$table_data[ $i ]['minimum_version']   = $plugin['version'];
 				$table_data[ $i ]['available_version'] = $this->tgmpa->does_plugin_have_update( $slug );
+				$table_data[ $i ]['description']       = $plugin['description'];
 
 				// Prep the upgrade notice info.
 				$upgrade_notice = $this->tgmpa->get_upgrade_notice( $slug );
@@ -2700,6 +2704,7 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 			if ( 'all' === $this->view_context || 'update' === $this->view_context ) {
 				$columns['version'] = __( 'Version', 'tgmpa' );
 				$columns['status']  = __( 'Status', 'tgmpa' );
+                $columns['description']  = __( 'Description', 'tgmpa' );
 			}
 
 			return apply_filters( 'tgmpa_table_columns', $columns );
